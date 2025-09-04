@@ -26,8 +26,8 @@ public class Serveur {
 				new ClientHandler(Listener.accept(), clientNumber++).start();
 			}
 		} finally {
-				// Fermeture de la connexion
-				Listener.close();
-			} 
-		}
-	}
+			// Fermeture de la connexion
+			Listener.close();
+		} 
+	} 
+}
