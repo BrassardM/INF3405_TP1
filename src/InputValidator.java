@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class InputValidator {
 	private enum StringState{
@@ -62,7 +63,7 @@ public class InputValidator {
 	}
 
 
-	public boolean isValid(final String input) {
+	private boolean isValid(final String input) {
 		ByteState byteState = ByteState.FIRST_NUM;
 		StringState stringState = StringState.FIRST_BYTE;
 		int currentNum = 0;
@@ -93,5 +94,33 @@ public class InputValidator {
 		}
 		return ((currentNum <= 255) && stringState.checkValid() && (!byteState.isFirst()));
 	}
-
+	
+	public String inputIP() {
+		System.out.print("Input the server's IP address : ");
+		Scanner scanner = new Scanner(System.in);
+		String input = scanner.nextLine();
+		if (isValid(input)) {
+			System.out.format("The IP address : [%s] is valid %n",input);
+			return input;
+		}
+		else {
+			System.err.format("The IP address : [%s] is invalid%n",input);
+			return inputIP();
+		}
+	}
+	
+	public int inputPort() {
+		System.out.print("Input the server's port (between 5000 & 5050) : ");
+		Scanner scanner = new Scanner(System.in);
+		int input = scanner.nextInt();
+		if (input >= 5000 && input <= 5050) {
+			System.out.format("The port %d is valid.%n", input);
+			return input;
+		}
+		else {
+			System.err.format("The port %d is invalid.%n",input);
+			return inputPort();
+		}
+	}
+	
 }
