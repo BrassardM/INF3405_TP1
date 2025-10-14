@@ -5,8 +5,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 public class ClientHandler extends Thread {
 	private Socket socket;
+	private String clientIP;
+	private int clientPort;
 	private int clientNumber;
 	private Directory serverDir; //directory that current client is in
 	
@@ -15,6 +20,8 @@ public class ClientHandler extends Thread {
 		this.clientNumber = clientNumber;
 		System.out.println("New connection with client#" + clientNumber + " at" + socket);
 		serverDir = new Directory();
+		clientIP = socket.getInetAddress().getHostAddress();
+		clientPort = socket.getPort();
 	}
 	public void run() {
 		try {
@@ -24,12 +31,18 @@ public class ClientHandler extends Thread {
 			out.writeInt(clientNumber);
 			boolean running = true;
 			String command = "";
+			LocalDateTime now = LocalDateTime.now();
+			String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 			while(running) {
 				out.writeUTF(serverDir.getDir());
 				command = in.readUTF();
 				if (command.startsWith("exit")) {
 					running = false;
 				}
+				now = LocalDateTime.now();
+				time = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd@HH:mm:ss"));
+				System.out.println('['+clientIP+':'+clientPort+ " - " + time + "]: " + command);
+				
 				out.writeUTF(ch.handle(command, serverDir));
 				if (command.startsWith("upload ")) {
 					String uploadFileName = command.substring(7);

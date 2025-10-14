@@ -11,10 +11,10 @@ public class Client {
 		// Address input
 		InputValidator iv = new InputValidator();
 		
-//		String serverAddress = iv.inputIP();
-		String serverAddress = "127.0.0.1"; // to remove
-//		int port = iv.inputPort();
-		int port = 5000; // to remove
+		String serverAddress = iv.inputIP();
+//		String serverAddress = "127.0.0.1"; // to remove
+		int port = iv.inputPort();
+//		int port = 5000; // to remove
 		socket = new Socket(serverAddress, port);
 		System.out.format("Server : [%s:%d]%n", serverAddress, port);
 		

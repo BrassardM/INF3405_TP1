@@ -7,10 +7,10 @@ public class Server {
 	public static void main(String[] args) throws Exception {
 		InputValidator iv = new InputValidator();
 		int clientNumber = 0;
-//		String serverAddress = iv.inputIP();
-		String serverAddress = "127.0.0.1"; // to remove
-//		int serverPort = iv.inputPort();
-		int serverPort = 5000; // to remove
+		String serverAddress = iv.inputIP();
+//		String serverAddress = "127.0.0.1"; // to remove
+		int serverPort = iv.inputPort();
+//		int serverPort = 5000; // to remove
 		Listener = new ServerSocket();
 		Listener.setReuseAddress(true);
 		InetAddress serverIP = InetAddress.getByName(serverAddress);
