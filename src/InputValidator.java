@@ -1,6 +1,8 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class InputValidator {
+	private Scanner scanner;
 	private enum StringState{
 		FIRST_BYTE, 
 		SECOND_BYTE,
@@ -96,8 +98,7 @@ public class InputValidator {
 	}
 	
 	public String inputIP() {
-		System.out.print("Input the server's IP address : ");
-		Scanner scanner = new Scanner(System.in);
+		System.out.print("Input the IP address : ");
 		String input = scanner.nextLine();
 		if (isValid(input)) {
 			System.out.format("The IP address : [%s] is valid %n",input);
@@ -110,7 +111,7 @@ public class InputValidator {
 	}
 	
 	public int inputPort() {
-		System.out.print("Input the server's port (between 5000 & 5050) : ");
+		System.out.print("Input port (between 5000 & 5050) : ");
 		Scanner scanner = new Scanner(System.in);
 		int input = scanner.nextInt();
 		if (input >= 5000 && input <= 5050) {
@@ -122,5 +123,54 @@ public class InputValidator {
 			return inputPort();
 		}
 	}
+	
+	public InputValidator() {
+		scanner = new Scanner(System.in);
+	}
+	
+	public String inputCommand() {
+		String command = scanner.nextLine();
+		if (
+				command.startsWith("cd ") || 
+				command.startsWith("ls") || 
+				command.startsWith("mkdir ") || 
+				command.startsWith("upload ") || 
+				command.startsWith("download ") || 
+				command.startsWith("delete ") || 
+				command.startsWith("exit") 
+				) {
+			if (command.startsWith("upload ")) {
+				String uploadFilePath = command.substring(7);
+				System.out.print(uploadFilePath);
+				File f = new File(uploadFilePath);
+				if (!f.isFile()){
+					System.out.print("INVALID LOCAL FILE NAME\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n[Enter command] : ");
+					return inputCommand();
+				}
+			}
+			else if (command.startsWith("download ")) {
+				String uploadFilePath = command.substring(9);
+				System.out.print(uploadFilePath);
+				File f = new File(uploadFilePath);
+				if (f.exists()){
+					System.out.print("INVALID LOCAL FILE, ALREADY EXISTS\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n[Enter command] : ");
+					return inputCommand();
+				}
+			}
+			return command;
+		}
+		else {
+			System.out.print("\n !! INPUT A VALID COMMAND !! \n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+			System.out.print("1. [cd <directory/..>]\n" +
+					"2. [ls]\n" + 
+					"3. [mkdir <directory_name>]\n" + 
+					"4. [upload <local_file>]\n" + 
+					"5. [download <file>]\n" + 
+					"6. [delete <directory/file>]\n" + 
+					"7. [exit]\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n" + "[Enter command] : ");
+			return inputCommand();
+		}
+	}
+	
 	
 }

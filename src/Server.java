@@ -1,15 +1,16 @@
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.util.Scanner;
 public class Server {
 	private static ServerSocket Listener;
 	
 	public static void main(String[] args) throws Exception {
 		InputValidator iv = new InputValidator();
 		int clientNumber = 0;
-		String serverAddress = iv.inputIP();
-		int serverPort = iv.inputPort();
+//		String serverAddress = iv.inputIP();
+		String serverAddress = "127.0.0.1"; // to remove
+//		int serverPort = iv.inputPort();
+		int serverPort = 5000; // to remove
 		Listener = new ServerSocket();
 		Listener.setReuseAddress(true);
 		InetAddress serverIP = InetAddress.getByName(serverAddress);
