@@ -23,6 +23,7 @@ public class Server {
 			}
 		} finally {
 			Listener.close();
+			iv.close();
 		} 
 	} 
 }

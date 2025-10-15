@@ -63,7 +63,10 @@ public class InputValidator {
 		}
 
 	}
-
+	
+	public void close() {
+		scanner.close();
+	}
 
 	private boolean isValid(final String input) {
 		ByteState byteState = ByteState.FIRST_NUM;
