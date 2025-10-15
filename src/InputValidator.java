@@ -141,7 +141,6 @@ public class InputValidator {
 				) {
 			if (command.startsWith("upload ")) {
 				String uploadFilePath = command.substring(7);
-				System.out.print(uploadFilePath);
 				File f = new File(uploadFilePath);
 				if (!f.isFile()){
 					System.out.print("INVALID LOCAL FILE NAME\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n[Enter command] : ");
@@ -150,7 +149,6 @@ public class InputValidator {
 			}
 			else if (command.startsWith("download ")) {
 				String uploadFilePath = command.substring(9);
-				System.out.print(uploadFilePath);
 				File f = new File(uploadFilePath);
 				if (f.exists()){
 					System.out.print("INVALID LOCAL FILE, ALREADY EXISTS\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n[Enter command] : ");

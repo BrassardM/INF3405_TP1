@@ -8,6 +8,7 @@ import java.net.Socket;
 public class Client {
 	private static Socket socket;
 	public static void main(String[] args) throws Exception {
+		System.out.println("Client :");
 		// Address input
 		InputValidator iv = new InputValidator();
 		
@@ -39,60 +40,11 @@ public class Client {
 			
 			//uploading files
 			if (uinput.startsWith("upload ")) {
-				if (in.readBoolean()) {
-					uinput = uinput.substring(7);
-					File f = new File(uinput);
-					FileInputStream fis = new FileInputStream(uinput);
-					out.writeLong(f.length());
-					out.writeUTF(MD5Calc.getMD5(uinput));
-					byte[] buffer = new byte[8192];
-					int bytesRead = 0;
-					while((bytesRead = fis.read(buffer)) != -1) {
-						out.write(buffer,0,bytesRead);
-					}
-					fis.close();
-					if (in.readBoolean()) {
-						System.out.println("Send successful, no errors in file.");
-					}
-					else {
-						System.out.println("Errors in file, try uploading again!");
-					}
-				}
-				else {
-					System.out.println("File already exists on server.");
-				}
+				System.out.println(CommandHandler.uploadFileClient(in, out, uinput));
 			}
 			//downloading files
 			else if (uinput.startsWith("download ")) {
-				if (in.readBoolean()) {
-					uinput = uinput.substring(9);
-					long fileLength = in.readLong();
-					String checksum = in.readUTF();
-					FileOutputStream fos = new FileOutputStream(uinput);
-					long totalRead = 0;
-				    byte[] buffer = new byte[8192];
-					while(totalRead < fileLength) {
-				        int bytesToRead = (int) Math.min(buffer.length, fileLength - totalRead);
-				        int bytesRead = in.read(buffer, 0, bytesToRead);
-				        if (bytesRead == -1) {
-				        	break;
-				        }
-				        fos.write(buffer, 0, bytesRead);
-				        totalRead += bytesRead;
-					}
-					fos.close();
-					if (checksum.equals(MD5Calc.getMD5(uinput))){
-						System.out.println("Successful download of file : " + uinput);
-					}
-					else {
-						System.out.println("Download of file " + uinput + " failed, try downloading again");
-						File f = new File(uinput);
-						f.delete();
-					}
-				}
-				else {
-					System.out.println("File does not exist.");
-				}
+				System.out.println(CommandHandler.downloadFileClient(in,out,uinput));
 			}
 			
 		}

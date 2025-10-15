@@ -5,6 +5,7 @@ public class Server {
 	private static ServerSocket Listener;
 	
 	public static void main(String[] args) throws Exception {
+		System.out.println("Server :");
 		InputValidator iv = new InputValidator();
 		int clientNumber = 0;
 		String serverAddress = iv.inputIP();
